@@ -23,6 +23,24 @@ var bzUploaderController = ['$scope', 'FileUploader', '$parse', '$window', funct
         headers: headers,
         url: $scope.url.replace('\\:', ':')    // replace \: -> : when port number
     });
+    if ($scope.maxFileSize && $scope.maxFileSize != '') {
+        // console.log('O_O', $scope.maxFileSize);
+        uploader.filters.unshift({
+            name: 'maxFileSize', fn: function (file) {
+                var maxFileSize = $scope.maxFileSize * 1024 * 1024;
+                // console.log('maxFileSize this', maxFileSize, file.size);
+                var res = file.size <= maxFileSize;
+                $scope.errors = $scope.errors || [];
+                if(!res) {
+                    $scope.errors.push({
+                        message: 'Overflow max file size',
+                        code: 1
+                    });
+                }
+                return res;
+            }
+        });
+    }
     $scope.uploader = uploader;
 
     uploader.onAfterAddingFile = function (items) {

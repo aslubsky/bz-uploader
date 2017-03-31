@@ -7,7 +7,8 @@ app.directive('bzUploader', [function() {
             'autoupload': '=',
             'errors': '=',
             'translates': '@text',
-            'limit': '@'
+            'limit': '@',
+            'maxFileSize': '@'
         },
         controller: bzUploaderController,
         templateUrl: 'bz-uploader/uploader.html',
